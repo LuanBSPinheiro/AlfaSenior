@@ -1,5 +1,6 @@
 package com.triplealfa.alfasenior.ui.screens
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Chat
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -34,10 +36,12 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.triplealfa.alfasenior.R
 import com.triplealfa.alfasenior.ui.constants.Dimens
+import com.triplealfa.alfasenior.utils.TextToSpeechManager
 
 @Composable
-fun WhatsAppScreen(navController: NavController) {
+fun WhatsAppScreen(navController: NavController, context: Context) {
     var step by remember { mutableIntStateOf(-1) }
+    val ttsManager = remember { TextToSpeechManager(context) }
 
     val introText =
         stringResource(R.string.intro_whatsapp)
@@ -49,6 +53,8 @@ fun WhatsAppScreen(navController: NavController) {
         stringResource(R.string.fourth_step_whatsapp),
         stringResource(R.string.fifth_step_whatsapp)
     )
+
+    val currentText = if (step == -1) introText else steps[step]
 
     Column(
         modifier = Modifier
@@ -78,11 +84,26 @@ fun WhatsAppScreen(navController: NavController) {
                 )
                 Spacer(modifier = Modifier.height(Dimens.SpacerHeight))
                 Text(
-                    text = if (step == -1) introText else steps[step],
+                    text = currentText,
                     fontSize = Dimens.ButtonFontSize,
                     color = Color(0xFF1E293B)
                 )
                 Spacer(modifier = Modifier.height(Dimens.SpacerHeight))
+                Button(
+                    onClick = { ttsManager.speak(currentText) },
+                    modifier = Modifier.height(Dimens.ButtonHeight)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.VolumeUp,
+                        contentDescription = stringResource(R.string.listen)
+                    )
+                    Spacer(modifier = Modifier.width(Dimens.SpacerWidth))
+                    Text(
+                        text = stringResource(R.string.listen),
+                        fontSize = Dimens.ButtonFontSize,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
 
@@ -94,7 +115,7 @@ fun WhatsAppScreen(navController: NavController) {
         ) {
             Button(
                 modifier = Modifier.height(Dimens.ButtonHeight),
-                onClick = { if (step > -1) step-- },
+                onClick = { ttsManager.stop(); if (step > -1) step-- },
                 enabled = step > -1
             ) {
                 Icon(
@@ -111,7 +132,7 @@ fun WhatsAppScreen(navController: NavController) {
 
             Button(
                 modifier = Modifier.height(Dimens.ButtonHeight),
-                onClick = { if (step < steps.size - 1) step++ },
+                onClick = { ttsManager.stop(); if (step < steps.size - 1) step++ },
                 enabled = step < steps.size - 1
             ) {
                 Text(
@@ -124,7 +145,7 @@ fun WhatsAppScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(Dimens.SpacerHeight))
         Button(
             modifier = Modifier.height(Dimens.ButtonHeight),
-            onClick = { navController.popBackStack() }) {
+            onClick = { ttsManager.stop(); navController.popBackStack() }) {
             Text(
                 text = stringResource(R.string.back),
                 fontSize = Dimens.ButtonFontSize,
@@ -137,5 +158,8 @@ fun WhatsAppScreen(navController: NavController) {
 @Preview(showBackground = true)
 @Composable
 fun WhatsAppScreenPreview() {
-    WhatsAppScreen(navController = rememberNavController())
+    WhatsAppScreen(
+        navController = rememberNavController(),
+        context = androidx.compose.ui.platform.LocalContext.current
+    )
 }

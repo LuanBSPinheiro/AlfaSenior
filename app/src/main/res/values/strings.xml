@@ -42,4 +42,6 @@
     <string name="fifth_step_internet">5. Para maior segurança, mantenha seu navegador e aplicativos sempre atualizados.</string>
     <string name="internet">Internet</string>
     <string name="module_internet">Módulo: Internet</string>
+    <string name="listen">Ouvir</string>
+    <string name="about">Sobre</string>
 </resources>
