@@ -1,58 +1,101 @@
 package com.triplealfa.alfasenior.ui.theme
 
-import android.app.Activity
-import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
+import android.content.Context
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.preferencesDataStore
+import com.triplealfa.alfasenior.ui.constants.Dimens
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+// Definição de cores padrão
+val PrimaryColor = Color(0xFF1E88E5)
+val SecondaryColor = Color(0xFF43A047)
+val BackgroundColor = Color(0xFFF5F5F5)
+val OnPrimaryColor = Color.White
+val OnBackgroundColor = Color.Black
+
+// Definição de cores para Alto Contraste
+val HighContrastPrimary = Color(0xFFFFEB3B)
+val HighContrastSecondary = Color(0xFFFF5722)
+val HighContrastBackground = Color(0xFF000000)
+val HighContrastOnPrimary = Color.Black
+val HighContrastOnBackground = Color.White
+
+// Tipografia personalizada
+val CustomTypography = Typography(
+    headlineMedium = TextStyle(
+        fontSize = Dimens.HeadlineMedium,
+        fontWeight = FontWeight.Bold,
+        fontFamily = FontFamily.SansSerif
+    ),
+    bodyMedium = TextStyle(
+        fontSize = Dimens.ButtonFontSize,
+        fontWeight = FontWeight.Normal,
+        fontFamily = FontFamily.SansSerif
+    ),
+    labelLarge = TextStyle(
+        fontSize = Dimens.LabelLarge,
+        fontWeight = FontWeight.Medium,
+        fontFamily = FontFamily.SansSerif
+    )
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+// DataStore para salvar a preferência do tema
+val Context.dataStore by preferencesDataStore(name = "settings")
+val HIGH_CONTRAST_KEY = booleanPreferencesKey("high_contrast")
 
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
-)
+fun getHighContrast(context: Context): Flow<Boolean> {
+    return context.dataStore.data.map { preferences ->
+        preferences[HIGH_CONTRAST_KEY] ?: false
+    }
+}
+
+fun setHighContrast(context: Context, isEnabled: Boolean) {
+    runBlocking {
+        context.dataStore.edit { preferences ->
+            preferences[HIGH_CONTRAST_KEY] = isEnabled
+        }
+    }
+}
 
 @Composable
-fun AlfaSeniorTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
-    content: @Composable () -> Unit
-) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+fun AlfaSeniorTheme(highContrast: Boolean, content: @Composable () -> Unit) {
+    val colorScheme = if (highContrast) {
+        darkColorScheme(
+            primary = HighContrastPrimary,
+            secondary = HighContrastSecondary,
+            background = HighContrastBackground,
+            surface = HighContrastBackground,
+            onPrimary = HighContrastOnPrimary,
+            onBackground = HighContrastOnBackground,
+            onSurface = HighContrastOnBackground
+        )
+    } else {
+        lightColorScheme(
+            primary = PrimaryColor,
+            secondary = SecondaryColor,
+            background = BackgroundColor,
+            surface = BackgroundColor,
+            onPrimary = OnPrimaryColor,
+            onBackground = OnBackgroundColor,
+            onSurface = OnBackgroundColor
+        )
     }
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = CustomTypography,
         content = content
     )
 }

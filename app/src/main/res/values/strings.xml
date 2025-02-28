@@ -44,4 +44,5 @@
     <string name="module_internet">Módulo: Internet</string>
     <string name="listen">Ouvir</string>
     <string name="about">Sobre</string>
+    <string name="modo_alto_contraste">Modo Alto Contraste</string>
 </resources>
