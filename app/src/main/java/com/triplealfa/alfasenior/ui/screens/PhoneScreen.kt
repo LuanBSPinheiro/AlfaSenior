@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
@@ -36,6 +37,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.triplealfa.alfasenior.R
 import com.triplealfa.alfasenior.ui.constants.Dimens
+import com.triplealfa.alfasenior.ui.theme.AnimatedButton
 import com.triplealfa.alfasenior.utils.TextToSpeechManager
 
 @Composable
@@ -114,45 +116,26 @@ fun PhoneScreen(navController: NavController, context: Context) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Button(
-                modifier = Modifier.height(Dimens.ButtonHeight),
+            AnimatedButton(
+                text = stringResource(R.string.previous),
+                icon = Icons.AutoMirrored.Filled.ArrowBack,
                 onClick = { ttsManager.stop(); if (step > -1) step-- },
                 enabled = step > -1
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = stringResource(R.string.previous)
-                )
-                Spacer(modifier = Modifier.width(Dimens.SpacerWidth))
-                Text(
-                    text = stringResource(id = R.string.previous),
-                    fontSize = Dimens.ButtonFontSize,
-                    fontWeight = FontWeight.Bold
-                )
-            }
+            )
 
-            Button(
-                modifier = Modifier.height(Dimens.ButtonHeight),
+            AnimatedButton(
+                text = if (step == -1) stringResource(id = R.string.start) else stringResource(id = R.string.next),
+                icon = Icons.AutoMirrored.Filled.ArrowForward,
                 onClick = { ttsManager.stop(); if (step < steps.size - 1) step++ },
-                enabled = step < steps.size - 1
-            ) {
-                Text(
-                    if (step == -1) stringResource(id = R.string.start) else stringResource(id = R.string.next),
-                    fontSize = Dimens.ButtonFontSize,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(Dimens.SpacerHeight))
-        Button(
-            modifier = Modifier.height(Dimens.ButtonHeight),
-            onClick = { ttsManager.stop(); navController.popBackStack() }) {
-            Text(
-                text = stringResource(id = R.string.back),
-                fontSize = Dimens.ButtonFontSize,
-                fontWeight = FontWeight.Bold
+                iconAtEnd = true,
+                enabled = step < steps.size - 1,
             )
         }
+        Spacer(modifier = Modifier.height(Dimens.SpacerHeight))
+        AnimatedButton(
+            text = stringResource(R.string.back),
+            onClick = { ttsManager.stop(); navController.popBackStack() }
+        )
     }
 }
 

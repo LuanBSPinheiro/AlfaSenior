@@ -4,20 +4,15 @@ import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Message
 import androidx.compose.material.icons.automirrored.outlined.Help
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.Shield
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -32,6 +27,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.triplealfa.alfasenior.R
 import com.triplealfa.alfasenior.ui.constants.Dimens
+import com.triplealfa.alfasenior.ui.theme.AnimatedButton
 import com.triplealfa.alfasenior.ui.theme.getHighContrast
 import com.triplealfa.alfasenior.ui.theme.setHighContrast
 
@@ -70,49 +66,37 @@ fun HomeScreen(navController: NavController, context: Context, onThemeChange: (B
             )
         }
 
-        ButtonWithIcon(
+        AnimatedButton(
             text = stringResource(R.string.learn_whatsapp),
             icon = Icons.AutoMirrored.Filled.Message,
-            onClick = { navController.navigate("module/whatsapp") }
+            onClick = { navController.navigate("module/whatsapp") },
+            modifier = Modifier.fillMaxWidth()
         )
-        ButtonWithIcon(
+
+        AnimatedButton(
             text = stringResource(R.string.learn_phone),
             icon = Icons.Filled.Phone,
-            onClick = { navController.navigate("module/phone") }
+            onClick = { navController.navigate("module/phone") },
+            modifier = Modifier.fillMaxWidth()
         )
-        ButtonWithIcon(
+        AnimatedButton(
             text = stringResource(R.string.learn_internet),
             icon = Icons.Filled.Public,
-            onClick = { navController.navigate("module/internet") }
+            onClick = { navController.navigate("module/internet") },
+            modifier = Modifier.fillMaxWidth()
         )
-        ButtonWithIcon(
+        AnimatedButton(
             text = stringResource(R.string.learn_safety),
             icon = Icons.Filled.Shield,
-            onClick = { navController.navigate("module/safety") }
+            onClick = { navController.navigate("module/safety") },
+            modifier = Modifier.fillMaxWidth()
         )
-        ButtonWithIcon(
+        AnimatedButton(
             text = stringResource(R.string.about),
             icon = Icons.AutoMirrored.Outlined.Help,
-            onClick = { navController.navigate("about") }
+            onClick = { navController.navigate("about") },
+            modifier = Modifier.fillMaxWidth()
         )
-    }
-}
-
-@Composable
-fun ButtonWithIcon(
-    text: String,
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
-    onClick: () -> Unit
-) {
-    Button(
-        onClick = onClick,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(Dimens.ButtonHeight)
-    ) {
-        Icon(imageVector = icon, contentDescription = text)
-        Spacer(modifier = Modifier.width(Dimens.SpacerWidth))
-        Text(text = text, fontSize = Dimens.ButtonFontSize, fontWeight = FontWeight.Medium)
     }
 }
 
