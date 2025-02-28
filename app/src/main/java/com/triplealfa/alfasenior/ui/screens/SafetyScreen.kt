@@ -82,7 +82,10 @@ fun SafetyScreen(navController: NavController, context: Context) {
                 Spacer(modifier = Modifier.height(Dimens.SpacerHeight))
                 Text(
                     text = stringResource(R.string.module_security),
-                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold)
+                    style = MaterialTheme.typography.headlineMedium.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black
+                    )
                 )
                 Spacer(modifier = Modifier.height(Dimens.SpacerHeight))
                 Text(
