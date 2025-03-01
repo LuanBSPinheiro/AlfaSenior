@@ -60,17 +60,17 @@ fun PhoneScreen(navController: NavController, context: Context) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(Dimens.CardPadding),
+            .padding(Dimens._16dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Card(
             modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(Dimens.CardCornerRadius),
+            shape = RoundedCornerShape(Dimens._12dp),
             colors = CardDefaults.cardColors(containerColor = Color(0xFFE3F2FD))
         ) {
             Column(
-                modifier = Modifier.padding(Dimens.CardPadding),
+                modifier = Modifier.padding(Dimens._16dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
@@ -78,7 +78,7 @@ fun PhoneScreen(navController: NavController, context: Context) {
                     contentDescription = stringResource(R.string.cellphone),
                     tint = Color(0xFF1565C0)
                 )
-                Spacer(modifier = Modifier.height(Dimens.SpacerHeight))
+                Spacer(modifier = Modifier.height(Dimens._20dp))
                 Text(
                     text = stringResource(R.string.module_cellphone),
                     style = MaterialTheme.typography.headlineMedium.copy(
@@ -86,16 +86,16 @@ fun PhoneScreen(navController: NavController, context: Context) {
                         color = Color.Black
                     )
                 )
-                Spacer(modifier = Modifier.height(Dimens.SpacerHeight))
+                Spacer(modifier = Modifier.height(Dimens._20dp))
                 Text(
                     text = currentText,
-                    fontSize = Dimens.ButtonFontSize,
+                    fontSize = Dimens._18sp,
                     color = Color(0xFF1E293B)
                 )
-                Spacer(modifier = Modifier.height(Dimens.SpacerHeight))
+                Spacer(modifier = Modifier.height(Dimens._20dp))
                 Button(
                     onClick = { ttsManager.speak(currentText) },
-                    modifier = Modifier.height(Dimens.ButtonHeight)
+                    modifier = Modifier.height(Dimens._48dp)
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.VolumeUp,
@@ -103,17 +103,17 @@ fun PhoneScreen(navController: NavController, context: Context) {
                             R.string.listen
                         )
                     )
-                    Spacer(modifier = Modifier.width(Dimens.SpacerWidth))
+                    Spacer(modifier = Modifier.width(Dimens._8dp))
                     Text(
                         text = stringResource(R.string.listen),
-                        fontSize = Dimens.ButtonFontSize,
+                        fontSize = Dimens._18sp,
                         fontWeight = FontWeight.Bold
                     )
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(Dimens.SpacerHeight))
+        Spacer(modifier = Modifier.height(Dimens._20dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -131,10 +131,10 @@ fun PhoneScreen(navController: NavController, context: Context) {
                 icon = Icons.AutoMirrored.Filled.ArrowForward,
                 onClick = { ttsManager.stop(); if (step < steps.size - 1) step++ },
                 iconAtEnd = true,
-                enabled = step < steps.size - 1,
+                enabled = step < steps.size - 1
             )
         }
-        Spacer(modifier = Modifier.height(Dimens.SpacerHeight))
+        Spacer(modifier = Modifier.height(Dimens._20dp))
         AnimatedButton(
             text = stringResource(R.string.back),
             onClick = { ttsManager.stop(); navController.popBackStack() }

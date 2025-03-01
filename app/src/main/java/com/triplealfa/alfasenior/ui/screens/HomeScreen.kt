@@ -27,7 +27,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.triplealfa.alfasenior.R
 import com.triplealfa.alfasenior.ui.constants.Dimens
-import com.triplealfa.alfasenior.ui.theme.AnimatedButton
+import com.triplealfa.alfasenior.ui.theme.ModuleCard
 import com.triplealfa.alfasenior.ui.theme.getHighContrast
 import com.triplealfa.alfasenior.ui.theme.setHighContrast
 
@@ -39,9 +39,9 @@ fun HomeScreen(navController: NavController, context: Context, onThemeChange: (B
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(Dimens.CardPadding),
+            .padding(Dimens._16dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(Dimens.SpacerHeight)
+        verticalArrangement = Arrangement.spacedBy(Dimens._20dp)
     ) {
         Text(
             text = stringResource(R.string.welcome_alfasenior),
@@ -66,33 +66,33 @@ fun HomeScreen(navController: NavController, context: Context, onThemeChange: (B
             )
         }
 
-        AnimatedButton(
-            text = stringResource(R.string.learn_whatsapp),
+        ModuleCard(
+            title = stringResource(R.string.learn_whatsapp),
             icon = Icons.AutoMirrored.Filled.Message,
             onClick = { navController.navigate("module/whatsapp") },
             modifier = Modifier.fillMaxWidth()
         )
 
-        AnimatedButton(
-            text = stringResource(R.string.learn_phone),
+        ModuleCard(
+            title = stringResource(R.string.learn_phone),
             icon = Icons.Filled.Phone,
             onClick = { navController.navigate("module/phone") },
             modifier = Modifier.fillMaxWidth()
         )
-        AnimatedButton(
-            text = stringResource(R.string.learn_internet),
+        ModuleCard(
+            title = stringResource(R.string.learn_internet),
             icon = Icons.Filled.Public,
             onClick = { navController.navigate("module/internet") },
             modifier = Modifier.fillMaxWidth()
         )
-        AnimatedButton(
-            text = stringResource(R.string.learn_safety),
+        ModuleCard(
+            title = stringResource(R.string.learn_safety),
             icon = Icons.Filled.Shield,
             onClick = { navController.navigate("module/safety") },
             modifier = Modifier.fillMaxWidth()
         )
-        AnimatedButton(
-            text = stringResource(R.string.about),
+        ModuleCard(
+            title = stringResource(R.string.about),
             icon = Icons.AutoMirrored.Outlined.Help,
             onClick = { navController.navigate("about") },
             modifier = Modifier.fillMaxWidth()

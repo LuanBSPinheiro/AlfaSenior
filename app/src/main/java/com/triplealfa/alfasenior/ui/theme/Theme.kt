@@ -1,12 +1,20 @@
 package com.triplealfa.alfasenior.ui.theme
 
 import android.content.Context
-import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -27,7 +35,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
@@ -54,17 +61,17 @@ val HighContrastOnBackground = Color.White
 // Tipografia personalizada
 val CustomTypography = Typography(
     headlineMedium = TextStyle(
-        fontSize = Dimens.HeadlineMedium,
+        fontSize = Dimens._24sp,
         fontWeight = FontWeight.Bold,
         fontFamily = FontFamily.SansSerif
     ),
     bodyMedium = TextStyle(
-        fontSize = Dimens.ButtonFontSize,
+        fontSize = Dimens._18sp,
         fontWeight = FontWeight.Normal,
         fontFamily = FontFamily.SansSerif
     ),
     labelLarge = TextStyle(
-        fontSize = Dimens.LabelLarge,
+        fontSize = Dimens._16sp,
         fontWeight = FontWeight.Medium,
         fontFamily = FontFamily.SansSerif
     )
@@ -107,18 +114,47 @@ fun AnimatedButton(
         modifier = modifier
             .scale(if (isPressed) 0.95f else 1f)
             .animatedPressEffect(),
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(Dimens._12dp),
         colors = ButtonDefaults.buttonColors(),
         enabled = enabled
     ) {
         if (!iconAtEnd && icon != null) {
             Icon(imageVector = icon, contentDescription = text)
-            Spacer(modifier = Modifier.width(Dimens.SpacerWidth))
+            Spacer(modifier = Modifier.width(Dimens._8dp))
         }
-        Text(text = text, fontSize = Dimens.ButtonFontSize)
+        Text(text = text, fontSize = Dimens._18sp)
         if (iconAtEnd && icon != null) {
-            Spacer(modifier = Modifier.width(Dimens.SpacerWidth))
+            Spacer(modifier = Modifier.width(Dimens._8dp))
             Icon(imageVector = icon, contentDescription = text)
+        }
+    }
+}
+
+@Composable
+fun ModuleCard(
+    title: String,
+    icon: ImageVector,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        shape = RoundedCornerShape(Dimens._12dp),
+        colors = CardDefaults.cardColors(containerColor = if (MaterialTheme.colorScheme.background == Color.Black) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = Dimens._4dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .height(Dimens._90dp)
+            .clickable { onClick() }
+            .padding(Dimens._12dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxSize().padding(horizontal = Dimens._20dp, vertical = Dimens._16dp),
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+        ) {
+            Icon(imageVector = icon, contentDescription = title, tint = MaterialTheme.colorScheme.primary)
+            Spacer(modifier = Modifier.width(Dimens._16dp))
+            Text(text = title, fontSize = Dimens._22sp, lineHeight = Dimens._28sp, fontWeight = FontWeight.Medium, color = Color.Black)
         }
     }
 }
